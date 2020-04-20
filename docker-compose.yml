@@ -6,8 +6,8 @@ services:
     container_name: 'memehub-redis'
     hostname: 'memehub-redis'
     environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=yourpassword
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     ports:
       - '6379:6379'
@@ -16,6 +16,7 @@ services:
   memehub-redis-commander:
     image: 'rediscommander/redis-commander'
     environment:
+      - REDIS_PASSWORD=yourpassword
       - PORT=6380
       - REDIS_HOST=memehub-redis
     ports:
