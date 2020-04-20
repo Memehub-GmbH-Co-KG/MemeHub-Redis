@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  memehub-redis:
+    image: 'bitnami/redis:5.0'
+    container_name: 'memehub-redis'
+    hostname: 'memehub-redis'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'memehub_redis_data:/bitnami/redis/data'
+  memehub-redis-commander:
+    image: 'rediscommander/redis-commander'
+    environment:
+      - PORT=6380
+      - REDIS_HOST=memehub-redis
+    ports:
+      - '6380:6380'
+    depends_on:
+      - memehub-redis
+volumes:
+  memehub_redis_data:
+    driver: local
